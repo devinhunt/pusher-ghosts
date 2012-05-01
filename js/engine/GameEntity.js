@@ -3,9 +3,7 @@
  * Simulatable, drawable things in our game.
  */
 
-(function() {
-  var root = this;
-  
+(function() {  
   /**
    * The basic thing that makes up games: the things we simulate and draw
    */
