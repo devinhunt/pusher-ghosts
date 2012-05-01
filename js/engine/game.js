@@ -34,8 +34,8 @@
    * Render our game objects to the screen
    */
   Game.draw = function() {
-    for(var i in objects) {
-      objects[i].draw();
+    for(var i in entities) {
+      entities[i].draw();
     }
   };
   
