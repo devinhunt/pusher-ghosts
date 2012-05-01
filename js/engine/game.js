@@ -20,7 +20,7 @@
    * Update the simulation
    */
   Game.update = function() {
-    Game.gameInput.update();
+    Game.input.update();
     
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
@@ -55,7 +55,7 @@
    */
   Game.run = function() {
     timeThen = new Date().getTime();
-    Game.gameInput = new Game.Input();
+    Game.input = new Game.Input();
     setInterval(Game.loopdeloop, 1000 / Game.fps)
   }
   

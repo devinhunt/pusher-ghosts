@@ -1,6 +1,7 @@
 /**
  * Input.js
  * Handels and normalizes user input so our game can get it.
+ * TODO :: This doesn't need to be a class. 
  */
 
 (function() {
