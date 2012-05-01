@@ -10,10 +10,21 @@
    * The basic thing that makes up games: the things we simulate and draw
    */
   Game.Object = function() {
-  
+    this.initialize();
   };
   
   Game.Object.prototype = {
+    
+    /** Position in the world */
+    x: 0,
+    y: 0,
+    
+    /**
+     * Called when the object is created
+     */
+    initialize: function() {
+      
+    },
     
     /**
      * Update this game object
