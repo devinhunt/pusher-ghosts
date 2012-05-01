@@ -6,26 +6,37 @@
 (function() {
   var root = this;
   
-  // Setup top level namespace
+  // Setup top level namespace and defaults
   var Game;
   Game = root.Game = {};
-  Game.fps = 60;
+  Game.fps = 30;
+  Game.frameTime = 1000 / Game.fps;
   
   var timeNow,
-      timeThen;
+      timeThen,
+      objects = [];
   
   /**
    * Update the simulation
    */
   Game.update = function() {
+    timeNow = new Date().getTime();
+    var dt = (timeNow - timeThen) / 1000;
+
+    for(var i in objects) {
+      objects[i].update(dt);
+    }
     
+    timeThen = timeNow;
   };
   
   /**
    * Render our game objects to the screen
    */
   Game.draw = function() {
-    
+    for(var i in objects) {
+      objects[i].draw();
+    }
   };
   
   /**
@@ -41,7 +52,7 @@
    * Start the game simulation
    */
   Game.run = function() {
-    timeNow = new Date().getTime();
+    timeThen = new Date().getTime();
     setInterval(Game.loopdeloop, 1000 / Game.fps)
   }
   
