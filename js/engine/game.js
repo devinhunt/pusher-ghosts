@@ -9,6 +9,10 @@
   // Setup top level namespace
   var Game;
   Game = root.Game = {};
+  Game.fps = 60;
+  
+  var timeNow,
+      timeThen;
   
   /**
    * Update the simulation
@@ -32,5 +36,13 @@
     Game.update();
     Game.draw();
   };
+  
+  /**
+   * Start the game simulation
+   */
+  Game.run = function() {
+    timeNow = new Date().getTime();
+    setInterval(Game.loopdeloop, 1000 / Game.fps)
+  }
   
 }).call(this);
