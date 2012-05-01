@@ -11,18 +11,20 @@
   Game = root.Game = {};
   Game.fps = 30;
   Game.frameTime = 1000 / Game.fps;
+  var entities = Game.entities = [];
   
   var timeNow,
-      timeThen,
-      entities = [];
+      timeThen;
   
   /**
    * Update the simulation
    */
   Game.update = function() {
+    Game.gameInput.update();
+    
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
-
+    
     for(var i in entities) {
       entities[i].update(dt);
     }
@@ -33,9 +35,9 @@
   /**
    * Render our game objects to the screen
    */
-  Game.draw = function() {
+  Game.render = function() {
     for(var i in entities) {
-      entities[i].draw();
+      entities[i].render();
     }
   };
   
@@ -45,7 +47,7 @@
    */
   Game.loopdeloop = function() {
     Game.update();
-    Game.draw();
+    Game.render();
   };
   
   /**
@@ -53,6 +55,7 @@
    */
   Game.run = function() {
     timeThen = new Date().getTime();
+    Game.gameInput = new Game.Input();
     setInterval(Game.loopdeloop, 1000 / Game.fps)
   }
   

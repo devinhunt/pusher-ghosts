@@ -34,7 +34,7 @@
     /**
      * Draw this object to the screen
      */
-    draw: function() {
+    render: function() {
       
     }
     

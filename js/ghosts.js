@@ -28,7 +28,8 @@
     },
     
     update: function(dt) {
-      
+      console.log(dt);
+      this.x += 1;
     },
     
     render: function(dt) {
@@ -44,5 +45,7 @@
   // Add a player
   var player = new Ghost();
   document.body.appendChild(player.el);
+  
+  Game.entities.push(player);
   
 }).call(this);
