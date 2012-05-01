@@ -12,7 +12,7 @@
   /**
    * The player and his enemys in PusherGhosts
    */
-  var Ghost = _.extend(Game.Object.prototype, {
+  var Ghost = _.extend(Game.Entity.prototype, {
     acceleration: 10,
     maxVelocity: 100,
     
@@ -36,5 +36,7 @@
     }
     
   });
+  
+  // DEBUGGY SETUP CODE
   
 }).call(this);

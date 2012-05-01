@@ -14,7 +14,7 @@
   
   var timeNow,
       timeThen,
-      objects = [];
+      entities = [];
   
   /**
    * Update the simulation
@@ -23,8 +23,8 @@
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
 
-    for(var i in objects) {
-      objects[i].update(dt);
+    for(var i in entities) {
+      entities[i].update(dt);
     }
     
     timeThen = timeNow;

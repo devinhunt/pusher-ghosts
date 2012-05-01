@@ -9,11 +9,11 @@
   /**
    * The basic thing that makes up games: the things we simulate and draw
    */
-  Game.Object = function() {
+  Game.Entity = function() {
     this.initialize();
   };
   
-  Game.Object.prototype = {
+  Game.Entity.prototype = {
     
     /** Position in the world */
     x: 0,
