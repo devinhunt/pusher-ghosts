@@ -14,8 +14,6 @@
     /** Mouse position, synced to frame update */
     mouseX: 0,
     mouseY: 0,
-    lastMouseX: 0, 
-    lastMouseY: 0, 
     
     /** Internal storage the the current mouse position */  
     _currentMouseX: 0,
