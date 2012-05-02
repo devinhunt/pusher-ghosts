@@ -5,11 +5,11 @@
  */
 
 (function() {
-  Game.Input = function() {
-    this.initialize();
-    console.log('Hello');
-  };
-  Game.Input.prototype = {
+  Game.Input = {
+    
+    initialize: function() {
+      $(window).mousemove(_.bind(this._onMouseMove, this));
+    },
     
     /** Mouse position, synced to frame update */
     mouseX: 0,
@@ -18,10 +18,6 @@
     /** Internal storage the the current mouse position */  
     _currentMouseX: 0,
     _currentMouseY: 0,
-    
-    initialize: function() {
-      $(window).mousemove(_.bind(this._onMouseMove, this));
-    },
     
     update: function() {
       this.mouseX = this._currentMouseX;
