@@ -8,11 +8,6 @@
     
   var root = this,
       PUSHER_APP_KEY = '22bc0fb0343194de2f30';
-      
-  // Setup Messeging
-  // Pusher.log = function(message) {
-  //   if (window.console && window.console.log) window.console.log(message);
-  // };
   
   var pusher = new Pusher(PUSHER_APP_KEY);
   var channel = pusher.subscribe('ghost_input');
@@ -20,13 +15,6 @@
     x: Game.Input.mouseX,
     y: Game.Input.mouseY,
   };
-  
-  /**
-   * Someone has joined the party!
-   */
-  channel.bind('player_join', function(data) {
-    console.log('got a join');
-  });
   
   /**
    * Someone has left the party
@@ -39,7 +27,28 @@
    * Someone in the party has moved, done something
    */
   channel.bind('player_input', function(data) {
-    console.log(data);
+    var entity,
+        target;
+
+    if(Game.player.playerId != data.playerId) {
+      for(var p in Game.entities) {
+        entity = Game.entities[p];
+        if(entity.id == data.playerId) target = entity;
+      }
+      
+      if(! target) {
+        target = new Game.Ghost({
+          id: data.playerId, 
+          x: data.x, 
+          y: data.y
+        });
+        Game.entities.push(target);
+        document.body.appendChild(target.el);
+      }
+      
+      target.targetX = data.x;
+      target.targetY = data.y;
+    }
   });
   
   // Send out our input state
@@ -49,19 +58,15 @@
       lastPushedState.x =  Game.Input.mouseX;
       lastPushedState.y =  Game.Input.mouseY;
       
-      $.post('http://localhost:8000', lastPushedState);
+      $.post('/', lastPushedState);
     }
-  }, 1000);
+  }, 100);
   
   
   // Our player
-  var player = new Game.Ghost({id: window.PLAYER_ID});
-  
-  // All players involved
-  var playerMap = {};
-  document.body.appendChild(player.el);
-  
-  Game.entities.push(player);
+  Game.player = new Game.Ghost({id: window.PLAYER_ID, x: 0, y: 0});
+  document.body.appendChild(Game.player.el);
+  Game.entities.push(Game.player);
   Game.run();
   
 }).call(this);

@@ -9,6 +9,7 @@
     
     initialize: function() {
       $(window).mousemove(_.bind(this._onMouseMove, this));
+      $(window).click(_.bind(this._onMouseMove, this));
     },
     
     /** Mouse position, synced to frame update */

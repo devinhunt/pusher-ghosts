@@ -210,7 +210,9 @@ td { vertical-align: top; }
 /* ==|== primary styles =====================================================
    Author: Devin Hunt
    ========================================================================== */
-
+body {
+  position: relative;
+}
 
 .ghost {
   position: absolute;

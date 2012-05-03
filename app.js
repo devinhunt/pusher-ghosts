@@ -30,20 +30,20 @@ var playerCount = 0;
 
 // Load our page
 app.get('/', function(req, res) {
+  if(! req.session.playerId) req.session.playerId = playerCount ++;
   res.render('index', {playerId: req.session.playerId});
 });
 
 // And echo position / update posts
 app.post('/', function(req, res) {
-  var eventType = 'player_input';
-  
-  if(!req.session.playerId) {
-    req.session.playerId = playerCount ++;
-    eventType = 'player_join';
+  console.log('Movement from player', req.session.playerId);
+  var data = {
+    playerId: req.session.playerId,
+    x: parseInt(req.body.x),
+    y: parseInt(req.body.y),
   }
   
-  req.body.playerId = req.session.playerId;
-  pusher.trigger('ghost_input', eventType, req.body);
+  pusher.trigger('ghost_input', 'player_input', data);
   res.send('ok');
 });
 
