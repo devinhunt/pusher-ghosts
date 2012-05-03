@@ -1,0 +1,10 @@
+{
+  "name": "pusher-ghosts",
+  "author": "Devin Hunt <devinhunt@gmail.com>",
+  "description": "A simple, in-the-background multiplayer game for websites.",
+  
+  "dependencies": {
+    "express": "",
+    "node-pusher": ""    
+  }
+}
