@@ -21,9 +21,26 @@
     y: Game.Input.mouseY,
   };
   
-  //channel.bind('player_input', function(data) {
-  //  console.log(data);
-  //});
+  /**
+   * Someone has joined the party!
+   */
+  channel.bind('player_join', function(data) {
+    console.log('got a join');
+  });
+  
+  /**
+   * Someone has left the party
+   */
+  channel.bind('player_leave', function(data) {
+    
+  });
+  
+  /**
+   * Someone in the party has moved, done something
+   */
+  channel.bind('player_input', function(data) {
+    console.log(data);
+  });
   
   // Send out our input state
   setInterval(function() {
@@ -37,8 +54,11 @@
   }, 1000);
   
   
-  // DEBUGGY SETUP CODE
-  var player = new Game.Ghost();
+  // Our player
+  var player = new Game.Ghost({id: window.PLAYER_ID});
+  
+  // All players involved
+  var playerMap = {};
   document.body.appendChild(player.el);
   
   Game.entities.push(player);
