@@ -41,9 +41,12 @@
    * Render our game objects to the screen
    */
   Game.render = function() {
+    Game.ctx.save();
+    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     for(var i in entities) {
       entities[i].render();
     }
+    Game.ctx.restore();
   };
   
   /**

@@ -13,8 +13,7 @@
     y: 0,
     targetX: 0,
     targetY: 0,
-    width: 60,
-    height: 60,
+    width: 25,
     
     /**
      * Initialize the ghost
@@ -36,10 +35,11 @@
     },
  
     render: function() {
-      $(this.el).css({
-        left: this.x - this.width / 2, 
-        top: this.y  - this.height / 2
-      });
+      Game.ctx.fillStyle = "rgba(255, 0, 255, .8)";
+      Game.ctx.beginPath();
+      Game.ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2, true);
+      Game.ctx.closePath();
+      Game.ctx.fill();
     },
   };
 }).call(this);

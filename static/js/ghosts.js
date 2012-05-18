@@ -43,7 +43,6 @@
           y: data.y
         });
         Game.entities.push(target);
-        document.body.appendChild(target.el);
       }
       
       target.targetX = data.x;
@@ -62,11 +61,16 @@
     }
   }, 100);
   
+  // Rendering stuff
+  Game.canvas = document.getElementById('ghost-game');
+  $(Game.canvas).attr("width", $(window).width());
+  $(Game.canvas).attr("height", $(window).height());
+  Game.ctx = Game.canvas.getContext('2d');
   
   // Our player
   Game.player = new Game.Ghost({id: window.PLAYER_ID, x: 0, y: 0});
-  document.body.appendChild(Game.player.el);
   Game.entities.push(Game.player);
+  
   Game.run();
   
 }).call(this);
