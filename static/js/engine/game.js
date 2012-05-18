@@ -11,7 +11,8 @@
   Game = root.Game = {};
   Game.fps = 30;
   Game.frameTime = 1000 / Game.fps;
-  var entities = Game.entities = [];
+  var ghosts = Game.ghosts = [];
+  var pings = Game.pings = [];
   
   var timeNow,
       timeThen;
@@ -24,6 +25,7 @@
     Game.player.targetX = Game.Input.mouseX;
     Game.player.targetY = Game.Input.mouseY;
     
+    // -- FOR LACK OF A BETTER SPOT, ATM
     if(Game.Input.clicked) {
       var ping = new Game.Ping({
         x: Game.player.x,
@@ -31,7 +33,7 @@
         owner: Game.player,
       });
       
-      this.entities.push(ping);
+      this.pings.push(ping);
       
       // post it up?
       $.post('/', {
@@ -40,18 +42,43 @@
         y: Game.Input.mouseY
       });
     }
+    // --
     
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
     
-    for(var i in entities) {
+    for(var p in pings) {
+      if(pings[p].state == 'dead') {
+        delete pings[p];
+        pings.splice(i, p);
+        p --;
+      } else {
+        pings[p].update(dt);
+      }
+    }
+    
+    var ping, ghost, dist;
+    for(var i in ghosts) {
+      ghost = ghosts[i];
       
-      if(entities[i].state == 'dead') {
-        delete entities[i];
-        entities.splice(i, 1);
+      if(ghosts[i].state == 'dead') {
+        delete ghost;
+        ghosts.splice(i, 1);
         i --;
       } else {
-        entities[i].update(dt);
+        ghost.update(dt);
+        
+        for(var a in pings) {
+          ping = pings[a];
+          
+          if(ping.owner.id != ghost.id) {
+            dist = Math.sqrt((ping.x - ghost.x) * (ping.x - ghost.x) + (ping.y - ghost.y) * (ping.y - ghost.y));
+            if(dist <= ping.radius + ghost.width) {
+              ping.owner.width += 1;
+              ghost.width -= 1;
+            }
+          }
+        }
       }
     }
     
@@ -65,8 +92,12 @@
     Game.ctx.save();
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     
-    for(var i in entities) {
-      entities[i].render();
+    for(var p in pings) {
+      pings[p].render();
+    }
+    
+    for(var i in ghosts) {
+      ghosts[i].render();
     }
     
     Game.ctx.restore();

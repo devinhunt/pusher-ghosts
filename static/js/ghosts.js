@@ -31,8 +31,8 @@
         target;
     
     if(Game.player.id != data.playerId) {
-      for(var p in Game.entities) {
-        entity = Game.entities[p];
+      for(var p in Game.ghosts) {
+        entity = Game.ghosts[p];
         if(entity.id == data.playerId) target = entity;
       }
       
@@ -42,7 +42,7 @@
           x: data.x, 
           y: data.y
         });
-        Game.entities.push(target);
+        Game.ghosts.push(target);
       }
       
       target.targetX = data.x;
@@ -54,7 +54,7 @@
           y: target.y,
           owner: target
         });
-        Game.entities.push(ping);
+        Game.pings.push(ping);
       }
     }
   });
@@ -78,7 +78,7 @@
   
   // Our player
   Game.player = new Game.Ghost({id: window.PLAYER_ID, x: 0, y: 0});
-  Game.entities.push(Game.player);
+  Game.ghosts.push(Game.player);
   
   Game.run();
   
