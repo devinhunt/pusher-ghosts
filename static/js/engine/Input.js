@@ -20,6 +20,9 @@
     _currentMouseX: 0,
     _currentMouseY: 0,
     
+    _clickedOccured: false,
+    clicked: false,
+    
     /**
      * Update the state of the input for this frame
      */
@@ -28,6 +31,13 @@
       this.lastMouseY = this.mouseY;
       this.mouseX = this._currentMouseX;
       this.mouseY = this._currentMouseY;
+      
+      if(this._clickedOccured) {
+        this.clicked = true;
+      } else {
+        this.clicked = false;
+      }
+      this._clickedOccured = false;
     },
     
     /**
@@ -36,6 +46,10 @@
     _onMouseMove: function(event) {
       this._currentMouseX = event.pageX || event.clientX;
       this._currentMouseY = event.pageY || event.clientY;
+      
+      if(event.type == 'click') {
+        this._clickedOccured = true;
+      }
     }
   };
 }).call(this);

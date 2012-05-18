@@ -7,6 +7,7 @@
     this.initialize(options);
   };
   Ghost.prototype = {
+    state: 'moving',
     id: null,
     x: 0,
     y: 0,
@@ -14,7 +15,6 @@
     targetY: 0,
     width: 60,
     height: 60,
-    maxStep: 500, 
     
     /**
      * Initialize the ghost
@@ -30,13 +30,9 @@
       this.el.className = 'ghost';
     },
  
-    update: function() {
-      
+    update: function(dt) {
       this.x += (this.targetX - this.x) / 5; 
       this.y += (this.targetY - this.y) / 5; 
-      // if(this.id != 0) {
-      //   console.log(this.targetX, this.targetY, this.x, this.y);
-      // }
     },
  
     render: function() {
@@ -44,6 +40,6 @@
         left: this.x - this.width / 2, 
         top: this.y  - this.height / 2
       });
-    }
+    },
   };
 }).call(this);

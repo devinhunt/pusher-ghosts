@@ -24,21 +24,15 @@ app.set('view options', {layout: false});
 app.set('view engine', 'html');
 app.register('.html', require('jqtpl').express);
 
-// THIS IS BAD?
-// Id to assign to new players
-var playerCount = 0;
-
 // Load our page
 app.get('/', function(req, res) {
-  if(! req.session.playerId) req.session.playerId = playerCount ++;
-  res.render('index', {playerId: req.session.playerId});
+  res.render('index', {playerId: req.sessionID});
 });
 
 // And echo position / update posts
 app.post('/', function(req, res) {
-  console.log('Movement from player', req.session.playerId);
   var data = {
-    playerId: req.session.playerId,
+    playerId: req.sessionID,
     x: parseInt(req.body.x),
     y: parseInt(req.body.y),
   }

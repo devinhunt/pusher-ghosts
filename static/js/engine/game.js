@@ -23,6 +23,9 @@
     Game.Input.update();
     Game.player.targetX = Game.Input.mouseX;
     Game.player.targetY = Game.Input.mouseY;
+    if(Game.Input.clicked) {
+      Game.player.ping();
+    }
     
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
