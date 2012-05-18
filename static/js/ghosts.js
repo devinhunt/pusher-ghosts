@@ -29,8 +29,8 @@
   channel.bind('player_input', function(data) {
     var entity,
         target;
-
-    if(Game.player.playerId != data.playerId) {
+    
+    if(Game.player.id != data.playerId) {
       for(var p in Game.entities) {
         entity = Game.entities[p];
         if(entity.id == data.playerId) target = entity;
@@ -47,10 +47,19 @@
       
       target.targetX = data.x;
       target.targetY = data.y;
+      
+      if(data.ping) {
+        var ping = new Game.Ping({
+          x: target.x,
+          y: target.y,
+          owner: target
+        });
+        Game.entities.push(ping);
+      }
     }
   });
   
-  // Send out our input state
+  // Send out continous input state
   setInterval(function() {
     
     if(Game.Input.mouseX != lastPushedState.x || Game.Input.mouseY != lastPushedState.y) {

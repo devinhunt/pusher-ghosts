@@ -9,6 +9,7 @@
   var Ping = Game.Ping = function(options) {
     this.x = options.x || 0;
     this.y = options.y || 0;
+    this.owner = options.owner || null;
     this.radius = 0;
     this.state = 'alive';
   }

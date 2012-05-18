@@ -27,10 +27,18 @@
     if(Game.Input.clicked) {
       var ping = new Game.Ping({
         x: Game.player.x,
-        y: Game.player.y
+        y: Game.player.y,
+        owner: Game.player,
       });
       
       this.entities.push(ping);
+      
+      // post it up?
+      $.post('/', {
+        ping: true, 
+        x: Game.Input.mouseX,
+        y: Game.Input.mouseY
+      });
     }
     
     timeNow = new Date().getTime();

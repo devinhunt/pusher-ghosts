@@ -35,6 +35,7 @@ app.post('/', function(req, res) {
     playerId: req.sessionID,
     x: parseInt(req.body.x),
     y: parseInt(req.body.y),
+    ping: req.body.ping
   }
   
   pusher.trigger('ghost_input', 'player_input', data);
