@@ -23,15 +23,28 @@
     Game.Input.update();
     Game.player.targetX = Game.Input.mouseX;
     Game.player.targetY = Game.Input.mouseY;
+    
     if(Game.Input.clicked) {
-      Game.player.ping();
+      var ping = new Game.Ping({
+        x: Game.player.x,
+        y: Game.player.y
+      });
+      
+      this.entities.push(ping);
     }
     
     timeNow = new Date().getTime();
     var dt = (timeNow - timeThen) / 1000;
     
     for(var i in entities) {
-      entities[i].update(dt);
+      
+      if(entities[i].state == 'dead') {
+        delete entities[i];
+        entities.splice(i, 1);
+        i --;
+      } else {
+        entities[i].update(dt);
+      }
     }
     
     timeThen = timeNow;
@@ -43,9 +56,11 @@
   Game.render = function() {
     Game.ctx.save();
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+    
     for(var i in entities) {
       entities[i].render();
     }
+    
     Game.ctx.restore();
   };
   
