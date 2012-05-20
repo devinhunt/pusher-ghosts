@@ -25,6 +25,7 @@
     y: 0,
     targetX: 0,
     targetY: 0,
+    _positionCache: [],
     
     // Ghost State
     health: 50,
@@ -52,6 +53,12 @@
           ax,
           ay;
       
+      this._positionCache.unshift({x: this.x, y: this.y});
+      
+      if(this._positionCache.length > 20) {
+        this._positionCache.pop();
+      }
+      
       // boo charging?
       if(! this.isBooCharged) {
         this.rechargeTime += dt;
@@ -73,28 +80,53 @@
     },
  
     render: function() {
-      var radius = this._getHitRadius(),
-          booRadius;
+      var ctx = Game.ctx,
+          radius = this._getHitRadius(),
+          booRadius, 
+          point;
 
       // Head
-      Game.ctx.fillStyle = "rgba(255, 0, 255, .8)";
-      Game.ctx.beginPath();
-      Game.ctx.arc(this.x, this.y, radius, 0, Math.PI * 2, true);
-      Game.ctx.closePath();
-      Game.ctx.fill();
+      ctx.fillStyle = "rgba(255, 0, 255, 1)";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, radius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fill();
       
+      // Body
+      var bump = -this.vx / 30,
+          angle =  bump / 60 * Math.PI / 4;
+      bump /= 4;
+      ctx.fillStyle = "rgba(255, 0, 255, 1)";
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(-angle);
+      ctx.beginPath();
+      ctx.moveTo(- radius, 0);
+      ctx.quadraticCurveTo(-radius,25, -radius + bump,  50);
+      
+      //tail fins
+      ctx.quadraticCurveTo(-radius / 2, 25, 0, 50);
+      ctx.quadraticCurveTo(radius / 2, 25, radius, 50);
+      
+      ctx.quadraticCurveTo(radius, 25, radius,  0);
+      ctx.fill();
+      ctx.fill();
+      ctx.restore();
+      
+            
       // Recharge Meter
       if(this.isBooCharged) {
         booRadius = radius - 4;
       } else {
         booRadius = this.rechargeTime / BOO_RECHARGE_TIME * (radius - 4);
       }
+      ctx.fillStyle = "rgba(0, 255, 255, 1)";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, booRadius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fill();
       
-      Game.ctx.fillStyle = "rgba(0, 255, 255, 1)";
-      Game.ctx.beginPath();
-      Game.ctx.arc(this.x, this.y, booRadius, 0, Math.PI * 2, true);
-      Game.ctx.closePath();
-      Game.ctx.fill();
+      // Face
     },
     
     _getHitRadius: function() {
