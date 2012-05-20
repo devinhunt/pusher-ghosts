@@ -5,7 +5,7 @@
 (function() {
   var MAX_RADIUS = 50,
       MIN_RADIUS = 2,
-      BOO_RECHARGE_TIME = .5.
+      BOO_RECHARGE_TIME = .5,
       MIN_HEALTH = 10,
       MAX_HEALTH = 80;
   
@@ -23,7 +23,6 @@
     y: 0,
     targetX: 0,
     targetY: 0,
-    _positionCache: [],
     
     // Ghost State
     health: 50,
@@ -50,12 +49,6 @@
           solutionTime = .3,
           ax,
           ay;
-      
-      this._positionCache.unshift({x: this.x, y: this.y});
-      
-      if(this._positionCache.length > 20) {
-        this._positionCache.pop();
-      }
       
       // boo charging?
       if(! this.isBooCharged) {
