@@ -3,13 +3,11 @@
  * Our main player token
  */
 (function() {
-  var MAX_A = 100,
-      SPRING_FORCE = 1000,
-      DAMP = .5,
-      MAX_HEALTH = 100,
-      MAX_RADIUS = 50,
+  var MAX_RADIUS = 50,
       MIN_RADIUS = 2,
-      BOO_RECHARGE_TIME = .5;
+      BOO_RECHARGE_TIME = .5.
+      MIN_HEALTH = 10,
+      MAX_HEALTH = 80;
   
   var Ghost = Game.Ghost = function(options) {
     this.initialize(options);
@@ -127,6 +125,10 @@
       ctx.fill();
       
       // Face
+    },
+    
+    setHealth: function(val) {
+      this.health = Math.max(MIN_HEALTH, Math.min(MAX_HEALTH, val));
     },
     
     _getHitRadius: function() {

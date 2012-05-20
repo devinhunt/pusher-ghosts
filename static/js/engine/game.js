@@ -74,9 +74,9 @@
           
           if(ping.owner.id != ghost.id) {
             dist = Math.sqrt((ping.x - ghost.x) * (ping.x - ghost.x) + (ping.y - ghost.y) * (ping.y - ghost.y));
-            if(dist <= ping.radius + ghost.width) {
-              ping.owner.width += 1;
-              ghost.width -= 1;
+            if(dist <= ping.radius + ghost.health) {
+              ping.owner.setHealth(ping.owner.health + 1);
+              ghost.setHealth(ghost.health - 1);
             }
           }
         }
