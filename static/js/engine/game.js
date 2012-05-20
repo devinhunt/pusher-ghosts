@@ -26,7 +26,8 @@
     Game.player.targetY = Game.Input.mouseY;
     
     // -- FOR LACK OF A BETTER SPOT, ATM
-    if(Game.Input.clicked) {
+    if(Game.Input.clicked && Game.player.isBooCharged) {
+      Game.player.isBooCharged = false;
       var ping = new Game.Ping({
         x: Game.player.x,
         y: Game.player.y,
