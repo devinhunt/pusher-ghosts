@@ -39,6 +39,12 @@
       this.targetX = this.x;
       this.targetY = this.y;
       
+      this.hue = 0;
+      for(var i in this.id) { 
+        this.hue += this.id.charCodeAt(i); 
+      }
+      this.hue = this.hue % 360;
+      
       this.el = document.createElement('div');
       this.el.className = 'ghost';
     },
@@ -73,11 +79,12 @@
     render: function() {
       var ctx = Game.ctx,
           radius = this._getHitRadius(),
+          bodyColor = "hsl(" + this.hue + ", 100%, 50%)",
           booRadius, 
           point;
 
       // Head
-      ctx.fillStyle = "rgba(255, 0, 255, 1)";
+      ctx.fillStyle = bodyColor;
       ctx.beginPath();
       ctx.arc(this.x, this.y, radius, 0, Math.PI * 2, true);
       ctx.closePath();
@@ -87,7 +94,7 @@
       var bump = -this.vx / 30,
           angle =  bump / 60 * Math.PI / 4;
       bump /= 4;
-      ctx.fillStyle = "rgba(255, 0, 255, 1)";
+      ctx.fillStyle = bodyColor;
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(-angle);
@@ -132,7 +139,7 @@
     updateFromState: function(state) {
       this.targetX = state.x;
       this.targetY = state.y;
-      this.healther = state.health;
+      this.health = state.health;
     },
     
     /**

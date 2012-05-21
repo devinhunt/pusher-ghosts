@@ -39,8 +39,8 @@
       // post it up?
       var playerState = Game.player.getState();
       playerState.ping = true;
-      playerState.pingX = Math.floor(Game.player.x);
-      playerState.pingY = Math.floor(Game.player.y);
+      playerState.pingX = Math.floor(ping.x);
+      playerState.pingY = Math.floor(ping.y);
       
       $.post('/', playerState);
     }

@@ -47,8 +47,8 @@
       
         if(data.ping) {
           var ping = new Game.Ping({
-            x: target.pingX,
-            y: target.pingY,
+            x: data.pingX,
+            y: data.pingY,
             owner: target
           });
           Game.pings.push(ping);
