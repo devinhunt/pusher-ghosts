@@ -13,10 +13,34 @@
 
   <link rel="stylesheet" href="static/css/style.css">
   <script src="static/js/vendor/modernizr-2.5.3.min.js"></script>
+  
+  <style>
+    body {
+      background-image: linear-gradient(top, rgb(13,0,76) 0%, rgb(45,47,144) 100%);
+      background-image: -o-linear-gradient(top, rgb(13,0,76) 0%, rgb(45,47,144) 100%);
+      background-image: -moz-linear-gradient(top, rgb(13,0,76) 0%, rgb(45,47,144) 100%);
+      background-image: -webkit-linear-gradient(top, rgb(13,0,76) 0%, rgb(45,47,144) 100%);
+      background-image: -ms-linear-gradient(top, rgb(13,0,76) 0%, rgb(45,47,144) 100%);
+
+      background-image: -webkit-gradient(
+      	linear,
+      	left top,
+      	left bottom,
+      	color-stop(0, rgb(13,0,76)),
+      	color-stop(1, rgb(45,47,144))
+      );
+    }
+    
+    #game {
+      background: url(/static/img/skyline.png) bottom repeat-x;
+    }
+  </style>
 </head>
 <body class="clearfix">
   
-  <canvas id="ghost-game"></canvas>
+  <div id="game">
+    <canvas id="ghost-game"></canvas>
+  </div>
   
   <!-- Script Libs -->
   <script src="static/js/vendor/jquery-1.7.2.min.js"></script>

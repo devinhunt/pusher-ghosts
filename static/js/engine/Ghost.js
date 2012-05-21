@@ -118,7 +118,7 @@
       } else {
         booRadius = this.rechargeTime / BOO_RECHARGE_TIME * (radius - 4);
       }
-      ctx.fillStyle = "rgba(255, 255, 255, .5)";
+      ctx.fillStyle = "rgba(255, 255, 255, .8)";
       ctx.beginPath();
       ctx.arc(this.x, this.y, booRadius, 0, Math.PI * 2, true);
       ctx.closePath();
