@@ -5,7 +5,10 @@
 var express = require('express'),
     app = express.createServer(),
     Pusher = new require('node-pusher'),
-    states = [];
+    
+    SPS = 12, // 'states per second'
+    states = [],
+    lastStatePush = new Date().getTime();
   
 var pusher = new Pusher({
   appId: '19432',
@@ -52,7 +55,16 @@ app.post('/', function(req, res) {
 
 // State pushing
 function quePlayerState(state) {
-  pusher.trigger('ghost_game', 'player_state', state);
+  var now = new Date().getTime();
+  
+  states.push(state);
+  
+  if(now - lastStatePush >= 1000 / SPS) {
+    console.log("Sending", states.length, "states");
+    pusher.trigger('ghost_game', 'player_state', states);
+    lastStatePush = now;
+    states.length = 0;
+  }
 }
 
 // Kick off our wierd, hybrid server

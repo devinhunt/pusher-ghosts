@@ -22,32 +22,37 @@
   /**
    * Someone in the party has moved, done something
    */
-  channel.bind('player_state', function(data) {
+  channel.bind('player_state', function(states) {
     var entity,
-        target;
+        target, 
+        data;
     
-    if(Game.player.id != data.playerId) {
-      for(var p in Game.ghosts) {
-        entity = Game.ghosts[p];
-        if(entity.id == data.playerId) target = entity;
-      }
+    for(var s in states) {
+      data = states[s];
       
-      if(! target) {
-        target = new Game.Ghost({
-          id: data.playerId
-        });
-        Game.ghosts.push(target);
-      }
+      if(Game.player.id != data.playerId) {
+        for(var p in Game.ghosts) {
+          entity = Game.ghosts[p];
+          if(entity.id == data.playerId) target = entity;
+        }
       
-      target.updateFromState(data);
+        if(! target) {
+          target = new Game.Ghost({
+            id: data.playerId
+          });
+          Game.ghosts.push(target);
+        }
       
-      if(data.ping) {
-        var ping = new Game.Ping({
-          x: target.pingX,
-          y: target.pingY,
-          owner: target
-        });
-        Game.pings.push(ping);
+        target.updateFromState(data);
+      
+        if(data.ping) {
+          var ping = new Game.Ping({
+            x: target.pingX,
+            y: target.pingY,
+            owner: target
+          });
+          Game.pings.push(ping);
+        }
       }
     }
   });
