@@ -4,7 +4,8 @@
 
 var express = require('express'),
     app = express.createServer(),
-    Pusher = new require('node-pusher');
+    Pusher = new require('node-pusher'),
+    states = [];
   
 var pusher = new Pusher({
   appId: '19432',
@@ -32,15 +33,28 @@ app.get('/', function(req, res) {
 // And echo position / update posts
 app.post('/', function(req, res) {
   var data = {
+    // Player state
     playerId: req.sessionID,
+    timestamp: parseInt(req.body.timestamp) || null,
     x: parseInt(req.body.x),
     y: parseInt(req.body.y),
-    ping: req.body.ping
+    health: parseInt(req.body.health),
+    
+    // Attack state
+    ping: req.body.ping || false,
+    pingX: req.body.pingX || null,
+    pingY: req.body.pingY || null,
   }
   
-  pusher.trigger('ghost_input', 'player_input', data);
+  quePlayerState(data);
   res.send('ok');
 });
 
+// State pushing
+function quePlayerState(state) {
+  pusher.trigger('ghost_game', 'player_state', state);
+}
+
+// Kick off our wierd, hybrid server
 app.listen(8000);
 console.log('Server running at http://127.0.0.1:8000');

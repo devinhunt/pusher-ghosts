@@ -120,6 +120,31 @@
       // Face
     },
     
+    getState: function() {
+      return {
+        x: this.targetX,
+        y: this.targetY,
+        health: this.health,
+        timestamp: new Date().getTime() + (new Date().getTimezoneOffset() * 60 * 1000)
+      };
+    },
+    
+    updateFromState: function(state) {
+      this.targetX = state.x;
+      this.targetY = state.y;
+      this.healther = state.health;
+    },
+    
+    /**
+     * Compares a state object with the 'meaningful' state of this player.
+     * That means targetX, targetY, and health.
+     */
+    stateEquals: function(state) {
+      return this.targetX == state.x &&
+        this.targetY == state.y &&
+        this.health == state.health;
+    },
+    
     setHealth: function(val) {
       this.health = Math.max(MIN_HEALTH, Math.min(MAX_HEALTH, val));
     },

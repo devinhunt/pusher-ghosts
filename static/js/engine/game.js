@@ -37,11 +37,12 @@
       this.pings.push(ping);
       
       // post it up?
-      $.post('/', {
-        ping: true, 
-        x: Game.Input.mouseX,
-        y: Game.Input.mouseY
-      });
+      var playerState = Game.player.getState();
+      playerState.ping = true;
+      playerState.pingX = Math.floor(Game.player.x);
+      playerState.pingY = Math.floor(Game.player.y);
+      
+      $.post('/', playerState);
     }
     // --
     

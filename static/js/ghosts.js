@@ -7,14 +7,10 @@
 (function() {
     
   var root = this,
-      PUSHER_APP_KEY = '22bc0fb0343194de2f30';
-  
-  var pusher = new Pusher(PUSHER_APP_KEY);
-  var channel = pusher.subscribe('ghost_input');
-  var lastPushedState = {
-    x: Game.Input.mouseX,
-    y: Game.Input.mouseY,
-  };
+      lastPushedState,
+      PUSHER_APP_KEY = '22bc0fb0343194de2f30',
+      pusher = new Pusher(PUSHER_APP_KEY),
+      channel = pusher.subscribe('ghost_game');
   
   /**
    * Someone has left the party
@@ -26,7 +22,7 @@
   /**
    * Someone in the party has moved, done something
    */
-  channel.bind('player_input', function(data) {
+  channel.bind('player_state', function(data) {
     var entity,
         target;
     
@@ -38,20 +34,17 @@
       
       if(! target) {
         target = new Game.Ghost({
-          id: data.playerId, 
-          x: data.x, 
-          y: data.y
+          id: data.playerId
         });
         Game.ghosts.push(target);
       }
       
-      target.targetX = data.x;
-      target.targetY = data.y;
+      target.updateFromState(data);
       
       if(data.ping) {
         var ping = new Game.Ping({
-          x: target.x,
-          y: target.y,
+          x: target.pingX,
+          y: target.pingY,
           owner: target
         });
         Game.pings.push(ping);
@@ -59,13 +52,10 @@
     }
   });
   
-  // Send out continous input state
+  // Send out continous state updates, if they're new
   setInterval(function() {
-    
-    if(Game.Input.mouseX != lastPushedState.x || Game.Input.mouseY != lastPushedState.y) {
-      lastPushedState.x =  Game.Input.mouseX;
-      lastPushedState.y =  Game.Input.mouseY;
-      
+    if(! Game.player.stateEquals(lastPushedState)) {
+      lastPushedState = Game.player.getState();
       $.post('/', lastPushedState);
     }
   }, 100);
@@ -79,7 +69,7 @@
   // Our player
   Game.player = new Game.Ghost({id: window.PLAYER_ID, x: 0, y: 0});
   Game.ghosts.push(Game.player);
-  
+  lastPushedState = Game.player.getState();
   Game.run();
   
 }).call(this);
