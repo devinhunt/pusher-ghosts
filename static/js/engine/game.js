@@ -31,7 +31,7 @@
       var ping = new Game.Ping({
         x: Game.player.x,
         y: Game.player.y,
-        owner: Game.player,
+        owner: Game.player
       });
       
       this.pings.push(ping);

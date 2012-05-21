@@ -27,7 +27,7 @@
     
     render: function() {
       var alpha = Math.max(.1, (MAX_PING_SIZE - this.radius) / MAX_PING_SIZE);
-      Game.ctx.fillStyle = "rgba(0, 255, 255, " + alpha + ")";
+      Game.ctx.fillStyle = "hsla(" + this.owner.hue + ", 100%, 50%, .2)",
       Game.ctx.beginPath();
       Game.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
       Game.ctx.closePath();
